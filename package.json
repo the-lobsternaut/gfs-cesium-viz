@@ -1,0 +1,9 @@
+{
+  "name": "gfs-cesium-viz",
+  "version": "0.1.0",
+  "description": "3D weather visualization for CesiumJS using GFS data",
+  "main": "dist/index.js",
+  "author": "the-lobsternaut",
+  "license": "MIT",
+  "repository": "https://github.com/the-lobsternaut/gfs-cesium-viz"
+}
