@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>GFS Weather Visualization Demo</title>
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.120/Build/Cesium/Cesium.js"></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.120/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <style>
+    html, body, #cesiumContainer {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    #info {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(42, 42, 42, 0.8);
+      padding: 10px;
+      color: white;
+      font-family: sans-serif;
+      border-radius: 5px;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+  <div id="info">
+    <h3>GFS Weather Visualization</h3>
+    <p>Camera Distance: <span id="distance">--</span></p>
+    <p>Cloud Mode: <span id="mode">--</span></p>
+  </div>
+
+  <script>
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlYWE1OWUxNy1mMWZiLTQzYjYtYTQ0OS1kMWFjYmFkNjc5YzciLCJpZCI6NTc3MzMsImlhdCI6MTYyNzg0NTE4Mn0.XcKpgANiY19MC4bdFUXMVEBToBmqS8kuYpUlxJHYZxk';
+
+    const viewer = new Cesium.Viewer('cesiumContainer', {
+      terrainProvider: Cesium.createWorldTerrain(),
+      shouldAnimate: true
+    });
+
+    // Mock cloud layer for demo
+    window.viewer = viewer;
+    window.cloudLayer = {
+      isVolumetricMode: false,
+      distanceThreshold: 100000
+    };
+
+    // Update info display
+    viewer.scene.preRender.addEventListener(() => {
+      const camera = viewer.camera;
+      const position = camera.positionCartographic;
+      const height = position.height;
+
+      document.getElementById('distance').textContent = (height / 1000).toFixed(1) + ' km';
+
+      if (height < 100000) {
+        document.getElementById('mode').textContent = 'Volumetric (SDF Raymarching)';
+        window.cloudLayer.isVolumetricMode = true;
+      } else {
+        document.getElementById('mode').textContent = 'Flat Texture';
+        window.cloudLayer.isVolumetricMode = false;
+      }
+    });
+
+    // Set initial camera position
+    viewer.camera.setView({
+      destination: Cesium.Cartesian3.fromDegrees(-122.4, 37.8, 500000)
+    });
+  </script>
+</body>
+</html>
