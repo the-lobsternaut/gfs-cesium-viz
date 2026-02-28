@@ -1,9 +1,19 @@
 {
   "name": "gfs-cesium-viz",
-  "version": "0.1.0",
-  "description": "3D weather visualization for CesiumJS using GFS data",
+  "version": "0.2.0",
+  "description": "3D weather visualization for CesiumJS using GFS data with volumetric clouds",
   "main": "dist/index.js",
+  "scripts": {
+    "build": "rollup -c",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "serve": "python3 -m http.server 8080"
+  },
+  "keywords": ["cesium", "weather", "gfs", "volumetric", "clouds", "shaders"],
   "author": "the-lobsternaut",
   "license": "MIT",
-  "repository": "https://github.com/the-lobsternaut/gfs-cesium-viz"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/the-lobsternaut/gfs-cesium-viz.git"
+  }
 }
